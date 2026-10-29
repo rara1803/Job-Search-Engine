@@ -52,14 +52,16 @@ The ranking algorithm assigns scores based on matching job categories, locations
 - PyCharm (or another Python IDE)
 - Flask and pandas
 
-### 1. Download the Project
+### How to Run?
+
+#### 1. Download the Project
 
 1. Click the green **Code** button on this repository.
 2. Select **Download ZIP**.
 3. Extract the ZIP file.
 4. Open the extracted project folder in PyCharm.
 
-### 2. Install Dependencies
+#### 2. Install Dependencies
 
 Make sure Python is configured as your project's interpreter in PyCharm.
 
@@ -70,7 +72,7 @@ Install the required packages using **Settings → Project → Python Interprete
 
 These dependencies are also listed in `requirements.txt`.
 
-### 3. Initialize the Database
+#### 3. Initialize the Database
 
 The application uses a CSV dataset to populate its SQLite database.
 
@@ -82,7 +84,7 @@ This creates and populates the local SQLite database.
 
 **Note:** The current initialization script contains a machine-specific file path that must be updated before running it on another computer.
 
-### 4. Run the Application
+#### 4. Run the Application
 
 1. Open `backend/website/app.py` in PyCharm.
 2. Make sure the `backend` folder is configured as a source root so Python can find the project's modules.
