@@ -16,10 +16,10 @@ Built with **Python, Flask, SQLite, HTML, CSS, and JavaScript**, this project de
 ![image alt](https://github.com/rara1803/Job-Search-Engine/blob/58c9ea5acc8917762e0bcbde84fbf202b82d569f/Screenshots/OOB%20frontpage.png)
 
 ### Job Search
-![image alt](https://github.com/rara1803/Job-Search-Engine/blob/7db4c81c8d400d3a90a9e9d5faf935ba98bc509a/Screenshots/OOB%20Search%20Engine.png) 
+![image alt](https://github.com/rara1803/Job-Search-Engine/blob/7db4c81c8d400d3a90a9e9d5faf935ba98bc509a/Screenshots/OOB%20Search%20Engine.png)
 
 ### Filtering System
-![image alt](screenshots/OOB-filtering-system.png)
+![image alt](https://github.com/rara1803/Job-Search-Engine/blob/4dfba355d5c250434d339960fb3951353b33a2a4/Screenshots/OOB%20Filtering%20system.png)
 
 ## Data Structures & Algorithms
 
