@@ -136,12 +136,6 @@
         .t-wp  {background:rgba(191,219,254,0.6);color:#1E40AF;border:1px solid rgba(191,219,254,0.9);}
         .t-type{background:rgba(153,246,228,0.5);color:#0F5E57;border:1px solid rgba(153,246,228,0.8);}
         .t-dept{background:rgba(253,230,138,0.5);color:#78350F;border:1px solid rgba(253,230,138,0.8);}
-        .card-footer{display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px solid var(--border);}
-        .apply-lnk{font-family:'DM Mono',monospace;font-size:10px;color:var(--accent2);cursor:default;letter-spacing:1px;}
-        .score-bar{display:flex;align-items:center;gap:6px;}
-        .score-lbl{font-family:'DM Mono',monospace;font-size:9px;color:var(--muted);}
-        .score-track{width:48px;height:3px;background:rgba(29,78,216,0.1);border-radius:999px;overflow:hidden;}
-        .score-fill{height:100%;background:linear-gradient(90deg,#1D4ED8,#0F766E);border-radius:999px;}
         .empty-state{text-align:center;padding:60px;font-family:'DM Mono',monospace;color:var(--muted);font-size:12px;letter-spacing:2px;grid-column:1/-1;}
 
         /* STATUS BAR */
@@ -181,12 +175,12 @@
 <nav>
     <div class="nav-brand">OOB</div>
     <div class="nav-right">
-        <div class="live-badge"><div class="live-dot"></div><span id="jobCount">— Live Jobs</span></div>
+        <div class="live-badge"><div class="live-dot"></div><span id="jobCount">— Jobs</span></div>
         <button class="btn-post" onclick="openModal()">+ Post a Job</button>
     </div>
 </nav>
 
-<div class="coord coord-tr">VER 2.0 · SYSTEM ACTIVE</div>
+<div class="coord coord-tr">OOB · JOB SEARCH</div>
 <div class="coord coord-bl" id="clockEl">--:--:--</div>
 
 <div class="social-strip">
@@ -200,14 +194,14 @@
 
 <main>
     <section style="position:relative;margin-bottom:48px;">
-        <div class="hero-eyebrow">⬡ AI-Powered Job Matching</div>
+        <div class="hero-eyebrow">⬡ Smart Job Search & Matching</div>
         <h1>
             <span style="color:#1A2535;">Jump</span><br>
             <span class="grad">OUTSIDE</span><br>
             <span class="grad">OF the BOX</span><br>
             <span style="color:#1A2535;">from Here</span>
         </h1>
-        <p class="hero-sub">Discover ranked opportunities across thousands of roles.<br>Search smarter. Filter faster. Land better.</p>
+        <p class="hero-sub">Explore job listings using keyword search and filters.<br>Search smarter. Filter faster. Explore opportunities.</p>
 
         <div class="search-wrapper">
             <input class="search-input" id="query" placeholder="Search by title, skill or keyword..." oninput="searchJobs()">
@@ -237,12 +231,12 @@
         <div class="widget w1">
             <div class="w-label">Total Listings</div>
             <div class="w-value" style="color:var(--accent)" id="w-count">—</div>
-            <div class="w-sub">↑ Updated live</div>
+            <div class="w-sub">From the job database</div>
         </div>
         <div class="widget w2">
-            <div class="w-label">Avg Match</div>
-            <div class="w-value" style="color:var(--accent2)">87%</div>
-            <div class="w-sub">AI Ranked</div>
+            <div class="w-label">Search Tools</div>
+            <div class="w-value" style="color:var(--accent2)">5</div>
+            <div class="w-sub">Keyword + 4 filters</div>
         </div>
         <div class="widget w3">
             <div class="w-label">Locations</div>
@@ -253,7 +247,7 @@
 
     <section class="results-section">
         <div class="results-header">
-            <span class="results-title">◈ Live Feed</span>
+            <span class="results-title">◈ Job Listings</span>
             <span class="results-count" id="resultCount">—</span>
         </div>
         <div class="results-grid" id="results">
@@ -349,7 +343,7 @@
             });
             const jobs = await res.json();
             const n = jobs.length;
-            document.getElementById('jobCount').textContent = n + ' Live Jobs';
+            document.getElementById('jobCount').textContent = n + ' Jobs';
             document.getElementById('w-count').textContent = n.toLocaleString();
         } catch(e) {}
     }
@@ -393,6 +387,10 @@
     function renderJobs(jobs) {
         const box = document.getElementById('results');
         const cnt = document.getElementById('resultCount');
+        // Escape values from the database before inserting them into HTML.
+        const escapeHtml = value => String(value ?? '').replace(/[&<>"']/g, char => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        })[char]);
         if (!jobs.length) {
             cnt.textContent = '0 results';
             box.innerHTML = '<div class="empty-state">NO MATCHING POSITIONS FOUND</div>';
@@ -402,27 +400,18 @@
         box.innerHTML = '';
         jobs.forEach((job, i) => {
             const [id, category, workplace, location, dept, type] = job;
-            const score = Math.max(42, 97 - i * 2);
             box.innerHTML += `
                 <div class="job-card">
                     <div class="card-top">
                         <div class="card-icon" style="background:${iconBg[i%5]}">${getIcon(category)}</div>
-                        <div class="card-badge">OPEN</div>
+                        <div class="card-badge">LISTED</div>
                     </div>
-                    <div class="job-title">${category || '—'}</div>
-                    <div class="job-loc">📍 ${location || 'Unspecified'}</div>
+                    <div class="job-title">${escapeHtml(category || '—')}</div>
+                    <div class="job-loc">📍 ${escapeHtml(location || 'Unspecified')}</div>
                     <div class="card-tags">
-                        ${workplace ? `<span class="tag t-wp">${workplace}</span>` : ''}
-                        ${type      ? `<span class="tag t-type">${type}</span>`    : ''}
-                        ${dept      ? `<span class="tag t-dept">${dept}</span>`    : ''}
-                    </div>
-                    <div class="card-footer">
-                        <span class="apply-lnk">Apply Now →</span>
-                        <div class="score-bar">
-                            <span class="score-lbl">MATCH</span>
-                            <div class="score-track"><div class="score-fill" style="width:${score}%"></div></div>
-                            <span class="score-lbl">${score}%</span>
-                        </div>
+                        ${workplace ? `<span class="tag t-wp">${escapeHtml(workplace)}</span>` : ''}
+                        ${type      ? `<span class="tag t-type">${escapeHtml(type)}</span>`    : ''}
+                        ${dept      ? `<span class="tag t-dept">${escapeHtml(dept)}</span>`    : ''}
                     </div>
                 </div>`;
         });
